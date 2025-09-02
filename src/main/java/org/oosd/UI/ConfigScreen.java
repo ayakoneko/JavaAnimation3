@@ -20,6 +20,7 @@ public class ConfigScreen implements ScreenWithGame {
 
     private StackPane buildTop() {
         Label label = new Label("Configuration");
+        label.getStyleClass().add("title-label");
 
         StackPane top = new StackPane(label);
         top.setPadding(new Insets(10, 0, 0, 0));
@@ -30,6 +31,7 @@ public class ConfigScreen implements ScreenWithGame {
     private StackPane buildBottom() {
         Button back = new Button("Back");
         back.setOnAction(e -> parent.showScreen(mainScreen));
+        back.getStyleClass().add("menu-button");
 
         StackPane bottom = new StackPane(back);
         bottom.setAlignment(Pos.CENTER);

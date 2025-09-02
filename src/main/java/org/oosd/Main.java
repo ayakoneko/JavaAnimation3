@@ -41,6 +41,8 @@ public class Main extends Application implements Frame {
         game = new Game();
         root = new StackPane();
         scene = new Scene(root, Game.fieldWidth, Game.fieldHeight);
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
 
         primaryStage.setTitle("JavaFX Multi-Screen Game");
         primaryStage.setScene(scene);

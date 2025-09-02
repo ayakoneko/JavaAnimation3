@@ -21,15 +21,19 @@ public class MainScreen implements Screen {
         mainScreen.setSpacing(20);
 
         Label label = new Label("Main Screen");
+        label.getStyleClass().add("title-label");
 
         Button startButton = new Button("Start Game");
         startButton.setOnAction(e -> parent.showScreen(gameScreen));
+        startButton.getStyleClass().add("menu-button");
 
         Button configButton = new Button("Configuration");
         configButton.setOnAction(e -> parent.showScreen(configScreen));
+        configButton.getStyleClass().add("menu-button");
 
         Button exitButton = new Button("Exit");
         exitButton.setOnAction(e -> parent.showExitConfirmation());
+        exitButton.getStyleClass().add("menu-button");
 
         mainScreen.getChildren().addAll(label, startButton, configButton, exitButton);
     }
