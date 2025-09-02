@@ -1,6 +1,8 @@
 package org.oosd.UI;
 
 import javafx.animation.AnimationTimer;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
@@ -10,40 +12,27 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import org.oosd.model.Game;
 
-public class GameScreen {
-
+public class GameScreen implements ScreenWithGame{
+    private final Frame parent;
+    private Game game;
+    private final Pane gamePane = new Pane();
+    private Screen mainScreen;
     private AnimationTimer timer;
+    private Circle ball;
 
-    private void showGameScreen() {
-        Pane gamePane = new Pane();
+    public GameScreen(Frame frame) {
+        this.parent = frame;
 
-        // Create field border
-        Rectangle field = new Rectangle(0, 0, Game.fieldWidth, Game.fieldHeight);
-        field.setFill(Color.TRANSPARENT);
-        field.setStroke(Color.BLACK);
-
-        // Create red ball
-        Circle ball = new Circle(game.getSize(), game.getColor());
-        ball.setCenterX(Game.fieldWidth / 2);
-        ball.setCenterY(Game.fieldHeight / 2);
-        if (game.isHasShadow()) {
-            DropShadow shadow = new DropShadow();
-            shadow.setOffsetX(5);
-            shadow.setOffsetY(5);
-            ball.setEffect(shadow);
-        }
-
-        Button backButton = new Button("Back");
-        backButton.setLayoutX(10);
-        backButton.setLayoutY(10);
-        backButton.setOnAction(e -> {
-            timer.stop();
-            showMainScreen();
+        gamePane.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                buildScreen();
+                setControl(newScene);
+                startGame();
+            }
         });
+    }
 
-        gamePane.getChildren().addAll(field, ball, backButton);
-
-        // Key control
+    private void setControl(Scene scene) {
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.UP) {
                 game.increaseY();
@@ -55,7 +44,36 @@ public class GameScreen {
                 game.decreaseX();
             }
         });
+    }
 
+    private void buildScreen() {
+        Rectangle field = new Rectangle(0, 0, Game.fieldWidth, Game.fieldHeight);
+        field.setFill(Color.TRANSPARENT);
+        field.setStroke(Color.BLACK);
+
+        ball = new Circle(game.getSize(), game.getColor());
+        ball.setCenterX(Game.fieldWidth / 2);
+        ball.setCenterY(Game.fieldHeight / 2);
+        if (game.isHasShadow()) {
+            DropShadow shadow = new DropShadow();
+            shadow.setOffsetX(5);
+            shadow.setOffsetY(5);
+            ball.setEffect(shadow);
+        }
+
+        Button back = new Button("Back");
+        back.setLayoutX(10);
+        back.setLayoutY(10);
+        back.setOnAction(e -> {
+            if (timer != null) timer.stop();
+            parent.showScreen(mainScreen);
+        });
+
+        gamePane.getChildren().setAll(field, ball, back);
+        gamePane.requestFocus();
+    }
+
+    private void startGame() {
         timer = new AnimationTimer() {
             int count;
 
@@ -63,9 +81,10 @@ public class GameScreen {
             public void handle(long now) {
                 double nextX = ball.getCenterX() + game.getDx();
                 double nextY = ball.getCenterY() + game.getDy();
+
                 count++;
                 if (count % 10 == 0) System.out.println("Count: " + count);
-                // Bounce off edges
+
                 if (nextX - ball.getRadius() < 0 || nextX + ball.getRadius() > Game.fieldWidth) {
                     game.setDx(-game.getDx());
                 }
@@ -77,11 +96,24 @@ public class GameScreen {
                 ball.setCenterY(ball.getCenterY() + game.getDy());
             }
         };
-
         timer.start();
+    }
 
-        root.getChildren().setAll(gamePane);
-        gamePane.requestFocus();  // Ensure pane gets key input
+    @Override
+    public Node getScreen() {
+        return gamePane;
+    }
+
+    @Override
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    @Override
+    public void setRoute(String path, Screen screen) {
+        if ("back".equals(path)) {
+            this.mainScreen = screen;
+        }
     }
 
 }
