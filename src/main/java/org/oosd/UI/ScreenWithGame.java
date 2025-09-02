@@ -1,4 +1,7 @@
 package org.oosd.UI;
 
-public interface ScreenWithGame {
+import org.oosd.model.Game;
+
+public interface ScreenWithGame extends Screen {
+    void setGame(Game game);
 }
