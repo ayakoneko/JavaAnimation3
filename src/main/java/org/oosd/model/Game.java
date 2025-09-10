@@ -10,8 +10,9 @@ public class Game {
     private String colorString = "RED";
     private int size = 10;
 
+    private double x = fieldWidth/2, y=fieldHeight/2; // initial ball's position
     public static final double fieldWidth = 400;
-    public static final double fieldHeight = 300;
+    public static final double fieldHeight = 270;
 
     public double getDx() { return dx; }
     public void setDx(double dx) { this.dx = dx; }
@@ -40,4 +41,23 @@ public class Game {
     public void decreaseX() { dx = dx < 0 ? dx - 1 : dx + 1; }
     public void increaseY() { dy = dy > 0 ? dy + 1 : dy - 1; }
     public void decreaseY() { dy = dy < 0 ? dy + 1 : dy - 1; }
+
+    public double getX() { return x; }
+    public double getY() { return y; }
+
+    public void proceed(){
+        double nextX = x + dx;
+        double nextY = y + dy;
+
+        //When ball fit the fieldWidth, revert the direction
+        if (nextX - size < 0 || nextX + size > Game.fieldWidth){
+            dx = -dx;
+        }
+        if (nextY - size < 0 || nextY + size > Game.fieldHeight){
+            dy = -dy;
+        }
+
+        x += dx;
+        y += dy;
+    }
 }
