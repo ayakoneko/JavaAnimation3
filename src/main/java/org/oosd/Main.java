@@ -11,6 +11,7 @@ import org.oosd.UI.ScreenWithGame;
 import org.oosd.UI.MainScreen;
 import org.oosd.UI.ConfigScreen;
 import org.oosd.UI.GameScreen;
+import org.oosd.controller.GameController;
 import org.oosd.model.Game;
 
 public class Main extends Application implements Frame {
@@ -39,16 +40,19 @@ public class Main extends Application implements Frame {
     @Override
     public void start(Stage primaryStage) {
         game = new Game();
+        GameController gc = new GameController(game);
         root = new StackPane();
-        scene = new Scene(root, Game.fieldWidth, Game.fieldHeight);
-        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
+        scene = new Scene(root, Game.fieldWidth + 2 * Env.HORIZONTAL_MARGIN, Game.fieldHeight + Env.TOP_MARGIN + Env.BOTTOM_MARGIN);
+        scene.setOnKeyPressed(e->gc.receiveKeyPress(e.getCode()));
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
         primaryStage.setTitle("JavaFX Multi-Screen Game");
         primaryStage.setScene(scene);
         primaryStage.show();
-        buildScreens();
+        primaryStage.setResizable(false);
 
+        buildScreens();
         primaryStage.setOnCloseRequest(event -> {
             event.consume();
             showExitConfirmation();
