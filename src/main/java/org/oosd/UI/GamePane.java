@@ -13,18 +13,17 @@ public class GamePane extends Pane {
     private Circle ball;
     private Game game;
 
-    public void setGame(Game game){
+    public void setGame(Game game) {
         this.game = game;
+        timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                game.proceed();
+                ball.setCenterX(game.getX());
+                ball.setCenterY(game.getY());
+            }
+        };
     }
-
-    timer = new AnimationTimer() {
-        @Override
-        public void handle(long now) {
-            game.proceed();
-            ball.setCenterX(game.getX());
-            ball.setCenterY(game.getY());
-        }
-    };
 
     private void buildGamePane(){
         getChildren().clear();

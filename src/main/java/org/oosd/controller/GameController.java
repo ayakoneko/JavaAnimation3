@@ -14,8 +14,8 @@ public class GameController {
         switch (key) {
             case UP -> game.increaseY();
             case DOWN -> game.decreaseY();
-            case LEFT -> game.increaseX();
-            case RIGHT -> game.decreaseX();
+            case LEFT -> game.decreaseX();
+            case RIGHT -> game.increaseX();
         }
     }
 }

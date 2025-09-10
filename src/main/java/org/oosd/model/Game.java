@@ -37,8 +37,8 @@ public class Game {
     public int getSize() { return size; }
     public void setSize(int size) { this.size = size; }
 
-    public void increaseX() { dx = dx > 0 ? dx - 1 : dx + 1; }
-    public void decreaseX() { dx = dx < 0 ? dx - 1 : dx + 1; }
+    public void increaseX() { dx = dx < 0 ? dx - 1 : dx + 1; }
+    public void decreaseX() { dx = dx > 0 ? dx - 1 : dx + 1; }
     public void increaseY() { dy = dy > 0 ? dy + 1 : dy - 1; }
     public void decreaseY() { dy = dy < 0 ? dy + 1 : dy - 1; }
 

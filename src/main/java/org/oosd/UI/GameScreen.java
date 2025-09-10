@@ -22,6 +22,7 @@ public class GameScreen implements ScreenWithGame{
                 gamePane.startGame();
             }
         });
+        buildScreen();
     }
 
     private StackPane getBottomPane() {
