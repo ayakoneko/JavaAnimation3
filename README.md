@@ -4,7 +4,7 @@ This repository contains lab work for **Object-Oriented Software Development** u
 Each lab builds upon the previous one, enhancing the JavaAnimation application with new features, improved design, and better software engineering practices.  
 
 👉 Visit my lab work: [JavaAnimation](https://github.com/ayakoneko/JavaAnimation3)
-
+👉 Original base project: [JavaAnimation](https://github.com/LarryAtGU/JavaAnimation)
 ---
 
 ## 📚 Labs Overview
